@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User'); // User 모델 임포트
 
 // JWT Secret Key (실제 환경에서는 .env 파일에서 불러오는 것을 권장)
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key'; 
+const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
 const jwtMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -42,8 +42,8 @@ const requireRole = (roles) => (req, res, next) => {
 // JWT를 생성하는 함수
 const generateToken = (user) => {
   return jwt.sign(
-    { id: user._id, role: user.role }, 
-    JWT_SECRET, 
+    { id: user._id, role: user.role },
+    JWT_SECRET,
     { expiresIn: '1h' } // 토큰 만료 시간 설정 (예: 1시간)
   );
 };
