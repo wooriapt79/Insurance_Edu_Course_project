@@ -1,3 +1,174 @@
+const mongoose = require('mongoose');
+
+const educationCourseSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  provider: {
+    type: String,
+    required: true,
+    enum: ['insurance', 'financial', 'legal', 'internal'],
+    default: 'internal'
+  },
+  providerName: String,
+  category: {
+    type: String,
+    enum: ['insurance', 'law', 'finance', 'compliance'],
+    required: true
+  },
+  materials: [{
+    type: {
+      type: String,
+      enum: ['document', 'video', 'quiz', 'link'],
+      required: true
+    },
+    title: String,
+    content: String,
+    order: Number,
+    required: Boolean,
+    duration: Number
+  }, { _id: false }],
+  exam: {
+    passingScore: {
+      type: Number,
+      required: true,
+      default: 70
+    },
+    timeLimit: Number,
+    questions: [{
+      _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
+      question: {
+        type: String,
+        required: true
+      },
+      type: {
+        type: String,
+        enum: ['multiple-choice', 'text', 'boolean'],
+        required: true
+      },
+      options: [String],
+      correctAnswerIndex: Number,
+      correctAnswerText: String,
+      difficulty: {
+        type: String,
+        enum: ['easy', 'medium', 'hard'],
+        default: 'medium'
+      },
+      topics: [String],
+      learningObjectiveId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'LearningObjective'
+      },
+      points: {
+        type: Number,
+        default: 1
+      },
+      explanation: String
+    }]
+  },
+  skillGranted: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Skill',
+    required: true
+  },
+  validPeriod: {
+    type: Number,
+    default: 365
+  },
+  isActive: {
+    type: Boolean,
+    default: true
+  },
+  thumbnail: String,
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+educationCourseSchema.pre('save', function(next) {
+  this.updatedAt = Date.now();
+  next();
+});
+
+module.exports = mongoose.model('EducationCourse', educationCourseSchema);
+
+const certificationAttemptSchema = new mongoose.Schema({
+  courseId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'EducationCourse',
+    required: true
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  startedAt: {
+    type: Date,
+    default: Date.now
+  },
+  completedAt: Date,
+  answers: [{
+    questionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true
+    },
+    answer: mongoose.Schema.Types.Mixed,
+    timeSpentSeconds: Number,
+    rawResponse: String,
+    agentConfidence: Number,
+    partialScore: Number
+  }],
+  score: Number,
+  passed: {
+    type: Boolean,
+    default: false
+  },
+  certificateIssued: {
+    type: Boolean,
+    default: false
+  },
+  certificateNumber: String,
+  certificateUrl: String,
+  expiresAt: Date,
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+certificationAttemptSchema.index({ courseId: 1, userId: 1 }, { unique: true, partialFilterExpression: { passed: false } });
+
+module.exports = mongoose.model('CertificationAttempt', certificationAttemptSchema);
+
+// NOTE: These fields should be added to the actual Skill model file
+// if they don't already exist. The comments below are illustrative.
+/*
+certification: {
+  type: Boolean,
+  default: false
+},
+certificationProvider: String,
+validPeriod: Number,
+renewable: Boolean
+*/
+
 const express = require('express');
 const router = express.Router();
 const EducationCourse = require('../models/EducationCourse');
