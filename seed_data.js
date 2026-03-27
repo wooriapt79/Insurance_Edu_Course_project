@@ -46,7 +46,13 @@ async function seedData() {
         providerName: 'Global Finance Academy',
         category: 'finance',
         materials: [],
-        exam: { passingScore: 80, questions: [] }, // Empty questions for simplicity
+        exam: {
+          passingScore: 80,
+          timeLimit: 60, // Example time limit in minutes
+          examInstructions: '본 시험은 객관식과 주관식 혼합형으로 진행됩니다. 제한 시간 내에 모든 문제를 풀어주세요.', // NEW FIELD
+          antiCheatingPolicy: '부정 행위 시 시험 결과는 무효 처리됩니다. 모든 응시는 기록됩니다.', // NEW FIELD
+          questions: []
+        },
         skillGranted: financeSkill._id,
         validPeriod: 365,
         createdBy: testUser._id,

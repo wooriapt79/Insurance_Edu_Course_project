@@ -3,7 +3,7 @@ const { generateToken } = require('./middleware/auth');
 const User = require('./models/User'); // User 모델 임포트
 
 // Use the same JWT_SECRET as in auth.js for consistency
-process.env.JWT_SECRET = 'your_jwt_secret_key'; 
+process.env.JWT_SECRET = 'your_jwt_secret_key';
 
 const MONGODB_URI = 'mongodb://localhost:27017/educationPlatform';
 
