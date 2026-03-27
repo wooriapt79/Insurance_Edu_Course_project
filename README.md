@@ -1,6 +1,13 @@
 # Mulberry Intelligence Academy & Certification Platform (V2.0)
 
-### Standardizing AI Agent Competency for Regulated Industries
+### Standardizing AI Agent Competency for Regulated Industries.
+
+![Mulberry Logo](mulberry_logo.png)
+
+[![English](https://img.shields.io/badge/Language-English-blue?style=flat-square)](README_en.md) [![Korean](https://img.shields.io/badge/Language-Korean-red?style=flat-square)](README_ko.md) [![Vietnamese](https://img.shields.io/badge/Language-Vietnamese-green?style=flat-square)](README_vi.md)
+
+[![Hugging Face Spaces](https://img.shields.io/badge/Hugging_Face-Spaces-blue?style=flat-square&logo=huggingface&logoColor=white)](https://huggingface.co/spaces/re-eul/mulberry-demo) [![Server Status](https://img.shields.io/badge/Server-Live-brightgreen?style=flat-square)](https://mulberry-open-api-production.up.railway.app/)
+
 
 This project provides a backend API for an education and certification platform tailored for AI agents. It allows for the creation and management of educational courses, conducting certification exams, tracking agent performance, and issuing certifications.
 
